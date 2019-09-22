@@ -89,7 +89,14 @@ class Viewer(QMainWindow):
         print(self.model.setChanged)
         if  self.model.setChanged == True:
             print("is changed, saving?")
-            self.writeCSV_update()
+            quit_msg = "<b>The document was changed.<br>Do you want to save the changes?</ b>"
+            reply = QMessageBox.question(self, 'Save Confirmation', 
+                     quit_msg, QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)
+            if reply == QMessageBox.Yes:
+                self.writeCSV_update()
+            else:
+                print("not saved, goodbye ...")
+                return
         else:
             print("nothing changed. goodbye")
 
@@ -98,6 +105,7 @@ class Viewer(QMainWindow):
         self.filemenu=bar.addMenu("File")
         self.separatorAct = self.filemenu.addSeparator()
         self.filemenu.addAction(QIcon.fromTheme("document-open"), "Open",  self.loadCSV, QKeySequence.Open) 
+        self.filemenu.addAction(QIcon.fromTheme("document-save"), "Save",  self.writeCSV_update, QKeySequence.Save) 
         self.filemenu.addAction(QIcon.fromTheme("document-save-as"), "Save as ...",  self.writeCSV, QKeySequence.SaveAs) 
 
     def openFile(self, path=None):
@@ -129,19 +137,13 @@ class Viewer(QMainWindow):
             dataFrame.to_csv(f, sep='\t', index = False, header = False)
 
     def writeCSV_update(self):
-        quit_msg = "<b>The document was changed.<br>Do you want to save the changes?</ b>"
-        reply = QMessageBox.question(self, 'Save Confirmation', 
-                 quit_msg, QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)
-        if reply == QMessageBox.Yes:
-            if self.filename:
-                print(self.filename + " saved")
-                f = open(self.filename, 'w')
-                newModel = self.model
-                dataFrame = newModel._df.copy()
-                dataFrame.to_csv(f, sep='\t', index = False, header = False)
-        else:
-            print("not saved, goodbye ...")
-            return
+        if self.filename:
+            print(self.filename + " saved")
+            f = open(self.filename, 'w')
+            newModel = self.model
+            dataFrame = newModel._df.copy()
+            dataFrame.to_csv(f, sep='\t', index = False, header = False)
+            self.model.setChanged = False
 
 def stylesheet(self):
         return """
