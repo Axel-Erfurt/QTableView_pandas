@@ -7,4 +7,4 @@
 - PyQt5
 - pandas
 
-Example for reading / writing tab delimited csv using QTableView
+Example for reading / writing tab delimited csv using pandas and QTableView
