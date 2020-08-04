@@ -1,5 +1,7 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
+#!/usr/bin/python3
+# -*- coding: utf-8 -*-
 import sys
 import csv, codecs 
 import os
@@ -77,6 +79,7 @@ class Viewer(QMainWindow):
       self.setGeometry(0, 0, 800, 600)
       self.lb = QTableView()
       self.lb.verticalHeader().setVisible(True)
+      self.lb.setGridStyle(1)
       self.model =  PandasModel()
       self.lb.setModel(self.model)
       self.lb.setEditTriggers(QAbstractItemView.DoubleClicked)
@@ -316,10 +319,11 @@ def stylesheet(self):
         }
         QTableView
         {
+            background: qlineargradient(y1:0,  y2:1,
+                        stop:0 #d3d7cf, stop:1 #ffffff);
             border: 1px solid #d3d7cf;
             border-radius: 0px;
             font-size: 8pt;
-            background: transparent;
             selection-color: #ffffff
         }
         QTableView::item:hover
@@ -328,10 +332,11 @@ def stylesheet(self):
             background: #c4a000;;           
         }
         
+        
         QTableView::item:selected {
             color: #F4F4F4;
             background: qlineargradient(y1:0,  y2:1,
-    stop:0 #2a82da, stop:1 #1f3c5d);
+                        stop:0 #2a82da, stop:1 #1f3c5d);
         } 
 
         QTableView QTableCornerButton::section {
