@@ -202,11 +202,10 @@ class Viewer(QMainWindow):
         model = self.lb.model()
         for column in range(self.model.columnCount()):
             start = model.index(0, column)
-            matches = model.match(start, Qt.DisplayRole, text, -1, Qt.MatchContains)
+            matches = model.match(start, Qt.ItemDataRole.DisplayRole, text, -1, Qt.MatchFlag.MatchContains)
             if matches:
                 for index in matches:
-                    print(index.row(), index.column())
-                    self.lb.selectionModel().select(index, QItemSelectionModel.Select)
+                    self.lb.selectionModel().select(index, QItemSelectionModel.SelectionFlag.Select)
 
     def openFile(self, path=None):
         print(self.model.setChanged)
